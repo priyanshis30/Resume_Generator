@@ -28,7 +28,8 @@ body{background:var(--black);color:var(--white);font-family:'Inter',sans-serif;l
 @keyframes heartbeat{0%,100%{transform:scale(1);}50%{transform:scale(1.3);}}
 @keyframes scoreGrow{from{width:0;}to{width:var(--target);}}
 @keyframes shimmer{0%{background-position:-200% 0;}100%{background-position:200% 0;}}
-
+@keyframes slideDown{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+ 
 .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4rem 2rem 3rem;position:relative;z-index:1;}
 .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 35%,rgba(201,168,76,0.07) 0%,transparent 70%);pointer-events:none;}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;border:0.5px solid var(--border-bright);border-radius:999px;padding:7px 20px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;animation:fadeDown 0.8s ease both;backdrop-filter:blur(8px);}
@@ -45,24 +46,43 @@ body{background:var(--black);color:var(--white);font-family:'Inter',sans-serif;l
 .btn-primary:hover{background:var(--gold-light);transform:translateY(-3px);box-shadow:0 14px 40px rgba(201,168,76,0.4);}
 .btn-secondary{display:inline-flex;align-items:center;gap:9px;background:transparent;color:var(--white);font-family:'Inter',sans-serif;font-weight:500;font-size:0.92rem;padding:14px 36px;border-radius:999px;border:0.5px solid var(--border-bright);cursor:pointer;transition:all 0.25s;}
 .btn-secondary:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px);}
-
-.section-divider{max-width:900px;margin:0 auto;padding:5rem 2rem 0;position:relative;z-index:1;}
+ 
+.section-divider{max-width:960px;margin:0 auto;padding:5rem 2rem 0;position:relative;z-index:1;}
 .section-heading{text-align:center;font-family:'Playfair Display',serif;font-size:1.9rem;color:var(--white);margin-bottom:0.5rem;}
 .section-heading em{font-style:italic;color:var(--gold);}
 .section-subheading{text-align:center;font-size:0.88rem;color:var(--muted);margin-bottom:2.5rem;max-width:500px;margin-left:auto;margin-right:auto;}
-
-.stream-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:0.85rem;}
-.stream-card{background:var(--black2);border:0.5px solid var(--border);border-radius:var(--radius);padding:1.4rem 1rem;cursor:pointer;transition:all 0.28s;text-align:center;position:relative;overflow:hidden;}
+ 
+/* ── Degree type row ── */
+.degree-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:2rem;}
+.degree-btn{display:flex;align-items:center;gap:8px;background:var(--black2);border:0.5px solid var(--border);border-radius:999px;padding:9px 22px;cursor:pointer;transition:all 0.22s;font-family:'Inter',sans-serif;font-size:0.85rem;font-weight:500;color:var(--white2);}
+.degree-btn:hover{border-color:var(--gold);color:var(--gold);}
+.degree-btn.active{background:var(--gold-glow);border-color:var(--gold);color:var(--gold);}
+.degree-btn .deg-icon{font-size:1.05rem;}
+ 
+/* ── Branch grid (second level) ── */
+.branch-panel{display:none;animation:slideDown 0.3s ease;}
+.branch-panel.visible{display:block;}
+.branch-step-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-dim);font-weight:600;margin-bottom:0.8rem;display:flex;align-items:center;gap:8px;}
+.branch-step-label::before{content:'';flex:1;height:0.5px;background:var(--border);}
+.branch-step-label::after{content:'';flex:1;height:0.5px;background:var(--border);}
+.stream-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:0.85rem;}
+.stream-card{background:var(--black2);border:0.5px solid var(--border);border-radius:var(--radius);padding:1.3rem 1rem;cursor:pointer;transition:all 0.28s;text-align:center;position:relative;overflow:hidden;}
 .stream-card::after{content:'';position:absolute;inset:0;background:var(--gold-glow);opacity:0;transition:opacity 0.28s;}
 .stream-card:hover::after,.stream-card.selected::after{opacity:1;}
 .stream-card:hover,.stream-card.selected{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 12px 36px rgba(201,168,76,0.14);}
-.stream-icon{font-size:2rem;margin-bottom:0.6rem;display:block;position:relative;z-index:1;}
-.stream-name{font-size:0.88rem;font-weight:600;color:var(--white);margin-bottom:0.2rem;position:relative;z-index:1;}
-.stream-desc{font-size:0.72rem;color:var(--muted);line-height:1.4;position:relative;z-index:1;}
+.stream-icon{font-size:1.8rem;margin-bottom:0.5rem;display:block;position:relative;z-index:1;}
+.stream-name{font-size:0.85rem;font-weight:600;color:var(--white);margin-bottom:0.2rem;position:relative;z-index:1;}
+.stream-desc{font-size:0.70rem;color:var(--muted);line-height:1.4;position:relative;z-index:1;}
 .stream-check{position:absolute;top:9px;right:10px;width:19px;height:19px;border-radius:50%;background:var(--gold);color:var(--black);font-size:10px;display:none;align-items:center;justify-content:center;font-weight:700;z-index:2;}
 .stream-card.selected .stream-check{display:flex;}
 .stream-cta{text-align:center;margin-top:2rem;padding-bottom:2rem;}
-
+ 
+/* ── Selected breadcrumb ── */
+.selection-breadcrumb{display:none;align-items:center;gap:8px;justify-content:center;margin-bottom:1.2rem;flex-wrap:wrap;}
+.selection-breadcrumb.visible{display:flex;}
+.bc-pill{background:var(--black3);border:0.5px solid var(--border-bright);border-radius:999px;padding:5px 16px;font-size:12px;color:var(--gold);font-weight:500;}
+.bc-sep{color:var(--muted);font-size:0.8rem;}
+ 
 .job-target-section{max-width:700px;margin:3rem auto 0;padding:0 2rem;position:relative;z-index:1;}
 .job-target-card{background:var(--black2);border:0.5px solid var(--border);border-radius:var(--radius);padding:2rem;position:relative;overflow:hidden;}
 .job-target-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
@@ -90,7 +110,7 @@ body{background:var(--black);color:var(--white);font-family:'Inter',sans-serif;l
 .skill-legend .dot{width:7px;height:7px;border-radius:50%;}
 .dot-green{background:var(--green);}
 .dot-gold{background:var(--gold);}
-
+ 
 .contact-wrap{max-width:700px;margin:5rem auto 0;padding:0 2rem;position:relative;z-index:1;}
 .contact-card{background:var(--black2);border:0.5px solid var(--border);border-radius:var(--radius);padding:2.5rem;position:relative;overflow:hidden;}
 .contact-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
@@ -118,7 +138,7 @@ body{background:var(--black);color:var(--white);font-family:'Inter',sans-serif;l
 .contact-success p{color:var(--gold);font-weight:600;font-size:1rem;}
 .contact-success small{color:var(--muted);font-size:0.8rem;}
 .contact-error{display:none;text-align:center;padding:1rem;background:rgba(239,68,68,0.08);border:0.5px solid rgba(239,68,68,0.3);border-radius:var(--radius-sm);margin-top:0.8rem;font-size:0.83rem;color:#fca5a5;}
-
+ 
 footer{position:relative;z-index:1;border-top:0.5px solid var(--border);margin-top:6rem;padding:3.5rem 2rem 2rem;}
 .footer-inner{max-width:960px;margin:0 auto;}
 .footer-top{display:flex;align-items:flex-start;justify-content:space-between;gap:2.5rem;flex-wrap:wrap;margin-bottom:2.5rem;}
@@ -136,7 +156,7 @@ footer{position:relative;z-index:1;border-top:0.5px solid var(--border);margin-t
 .footer-copy{font-size:0.76rem;color:var(--muted);}
 .footer-love{font-size:0.78rem;color:var(--muted);display:flex;align-items:center;gap:5px;}
 .heart{color:#e24b4a;animation:heartbeat 1.4s ease-in-out infinite;}
-
+ 
 .progress-wrap{position:sticky;top:0;z-index:100;background:rgba(8,8,8,0.96);backdrop-filter:blur(14px);border-bottom:0.5px solid var(--border);padding:1rem 2rem;}
 .progress-steps{display:flex;align-items:center;justify-content:center;max-width:820px;margin:0 auto;}
 .step{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1;position:relative;cursor:pointer;}
@@ -149,7 +169,7 @@ footer{position:relative;z-index:1;border-top:0.5px solid var(--border);margin-t
 .step.active .step-label,.step.done .step-label{color:var(--gold);}
 .progress-bar-track{height:1.5px;background:var(--border);border-radius:999px;margin-top:0.7rem;overflow:hidden;}
 .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold));border-radius:999px;transition:width 0.5s cubic-bezier(0.4,0,0.2,1);width:0%;}
-
+ 
 .form-area{max-width:820px;margin:0 auto;padding:2.5rem 2rem 6rem;position:relative;z-index:1;}
 .section-card{background:var(--black2);border:0.5px solid var(--border);border-radius:var(--radius);padding:2.2rem;margin-bottom:1.5rem;display:none;animation:fadeUp 0.4s ease;}
 .section-card.visible{display:block;}
@@ -158,7 +178,7 @@ footer{position:relative;z-index:1;border-top:0.5px solid var(--border);margin-t
 .card-title{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:600;color:var(--white);margin-bottom:0.08rem;}
 .card-sub{font-size:0.78rem;color:var(--muted);}
 .stream-badge-inline{display:inline-flex;align-items:center;gap:6px;background:var(--gold-glow);border:0.5px solid var(--border-bright);border-radius:999px;padding:4px 14px;font-size:11px;color:var(--gold);margin-bottom:1rem;font-weight:500;}
-
+ 
 .field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
 .field-row.single{grid-template-columns:1fr;}
 .field-row.triple{grid-template-columns:1fr 1fr 1fr;}
@@ -186,7 +206,7 @@ select option{background:var(--black3);}
 .btn-ghost:hover{border-color:var(--gold);color:var(--gold);}
 .btn-gold{background:var(--gold);border:none;border-radius:999px;color:var(--black);font-family:'Inter',sans-serif;font-weight:700;font-size:0.87rem;padding:10px 26px;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 20px rgba(201,168,76,0.22);}
 .btn-gold:hover{background:var(--gold-light);transform:translateY(-1px);box-shadow:0 8px 28px rgba(201,168,76,0.32);}
-
+ 
 .job-inline-section{background:var(--black3);border:0.5px solid var(--border);border-radius:var(--radius-sm);padding:1.2rem;margin-bottom:1.2rem;}
 .job-inline-section h4{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-dim);font-weight:600;margin-bottom:0.8rem;}
 .job-inline-row{display:flex;gap:8px;margin-bottom:0.8rem;}
@@ -204,7 +224,7 @@ select option{background:var(--black3);}
 .jlegend{display:flex;gap:12px;margin-top:6px;font-size:10px;color:var(--muted);}
 .jlegend span{display:flex;align-items:center;gap:4px;}
 .jdot{width:6px;height:6px;border-radius:50%;}
-
+ 
 #preview-section{max-width:900px;margin:0 auto;padding:2rem 2rem 6rem;display:none;position:relative;z-index:1;}
 #preview-section.visible{display:block;}
 .preview-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;background:var(--black2);border:0.5px solid var(--border);border-radius:var(--radius);padding:1rem 1.5rem;}
@@ -212,7 +232,7 @@ select option{background:var(--black3);}
 .toolbar-actions{display:flex;gap:10px;}
 .btn-outline{background:transparent;border:0.5px solid var(--border-bright);border-radius:999px;color:var(--gold);font-family:'Inter',sans-serif;font-size:0.84rem;padding:8px 20px;cursor:pointer;transition:all 0.2s;}
 .btn-outline:hover{background:var(--gold-glow);}
-
+ 
 .ats-panel{background:var(--black2);border:0.5px solid var(--border);border-radius:var(--radius);padding:1.8rem;margin-bottom:1.5rem;position:relative;overflow:hidden;}
 .ats-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
 .ats-panel-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:1rem;}
@@ -230,7 +250,7 @@ select option{background:var(--black3);}
 .ats-tips-title{font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-dim);font-weight:600;margin-bottom:0.7rem;}
 .ats-tip{display:flex;align-items:flex-start;gap:8px;font-size:0.8rem;color:var(--muted);margin-bottom:0.5rem;line-height:1.5;}
 .ats-tip-icon{flex-shrink:0;font-size:0.9rem;}
-
+ 
 #resume-doc{background:#fff;color:#111;font-family:'Inter',sans-serif;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);}
 .r-header{background:#fff;padding:2rem 2.5rem 1.4rem;border-bottom:2px solid #111;}
 .r-header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;}
@@ -251,7 +271,7 @@ select option{background:var(--black3);}
 .r-skills-wrap{display:flex;flex-wrap:wrap;gap:5px;}
 .r-skill-chip{background:#f3f3f3;border:1px solid #e0e0e0;border-radius:4px;padding:2px 10px;font-size:0.74rem;color:#222;font-weight:500;}
 .r-hobbies{font-size:0.8rem;color:#333;}
-
+ 
 @media(max-width:640px){
   .field-row,.field-row.triple{grid-template-columns:1fr;}
   .crow{grid-template-columns:1fr;}
@@ -261,20 +281,22 @@ select option{background:var(--black3);}
   .footer-top{flex-direction:column;}
   .ats-panel-top{flex-direction:column;}
   .ats-bar-label{width:100px;}
+  .degree-row{gap:7px;}
+  .degree-btn{padding:7px 14px;font-size:0.8rem;}
 }
 .hidden{display:none!important;}
 </style>
 </head>
 <body>
 <div id="particles"></div>
-
+ 
 <!-- ══════════════════════════════════════════════════════════ HERO -->
 <section class="hero" id="hero">
   <div class="hero-badge"><div class="hero-badge-dot"></div> ATS-Optimised &nbsp;·&nbsp; Job-Targeted &nbsp;·&nbsp; Free Forever</div>
   <h1>Craft Your <em>Story,</em><br>Own Your Future.</h1>
   <p class="hero-quote">"She remembered who she was and the game changed."<cite>— Lalah Delia</cite></p>
   <div class="hero-stats">
-    <div class="hero-stat"><div class="hero-stat-num">11+</div><div class="hero-stat-label">Streams</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">50+</div><div class="hero-stat-label">Streams</div></div>
     <div class="hero-stat"><div class="hero-stat-num">ATS</div><div class="hero-stat-label">Scored</div></div>
     <div class="hero-stat"><div class="hero-stat-num">Jobs</div><div class="hero-stat-label">Targeted</div></div>
     <div class="hero-stat"><div class="hero-stat-num">100%</div><div class="hero-stat-label">Free</div></div>
@@ -284,15 +306,31 @@ select option{background:var(--black3);}
     <button class="btn-secondary" onclick="scrollTo2('contact-section')">Share Feedback</button>
   </div>
 </section>
-
+ 
 <!-- ══════════════════════════════════════════════════════════ STREAM -->
 <div class="section-divider" id="stream-section">
   <div class="section-heading">Choose Your <em>Stream</em></div>
-  <div class="section-subheading">We tailor resume sections, job suggestions & skill recommendations based on your field.</div>
-  <div class="stream-grid" id="stream-grid"></div>
+  <div class="section-subheading">First pick your degree type, then your specialisation — we tailor everything to your field.</div>
+ 
+  <!-- Step 1: Degree type buttons -->
+  <div class="degree-row" id="degree-row"></div>
+ 
+  <!-- Step 2: Branch grid (revealed after degree selection) -->
+  <div class="branch-panel" id="branch-panel">
+    <div class="branch-step-label" id="branch-step-label">Choose your specialisation</div>
+    <div class="stream-grid" id="stream-grid"></div>
+  </div>
+ 
+  <!-- Breadcrumb of current selection -->
+  <div class="selection-breadcrumb" id="selection-breadcrumb">
+    <span class="bc-pill" id="bc-degree"></span>
+    <span class="bc-sep">›</span>
+    <span class="bc-pill" id="bc-branch"></span>
+  </div>
+ 
   <div class="stream-cta"><button class="btn-primary hidden" id="stream-start-btn" onclick="startBuilder()">✦ Start Building My Resume →</button></div>
 </div>
-
+ 
 <!-- ══════════════════════════════════════════════════════════ JOB TARGET -->
 <div class="job-target-section" id="job-target-section" style="display:none;">
   <div class="job-target-card">
@@ -317,7 +355,7 @@ select option{background:var(--black3);}
     </div>
   </div>
 </div>
-
+ 
 <!-- ══════════════════════════════════════════════════════════ CONTACT -->
 <div class="contact-wrap" id="contact-section">
   <div class="contact-card">
@@ -335,12 +373,64 @@ select option{background:var(--black3);}
         <label>Your Stream</label>
         <select id="ct-stream">
           <option value="">Select your stream</option>
-          <option>Mechanical Engineering</option><option>Civil Engineering</option>
-          <option>Computer Science</option><option>Electrical Engineering</option>
-          <option>Electronics &amp; Communication</option><option>IT / Software</option>
-          <option>Business / MBA</option><option>Arts &amp; Humanities</option>
-          <option>Medical / Healthcare</option><option>Law</option>
-          <option>Architecture</option><option>Other</option>
+          <optgroup label="BTech / BE">
+            <option>BTech — Computer Science</option><option>BTech — Mechanical Engineering</option>
+            <option>BTech — Civil Engineering</option><option>BTech — Electrical Engineering</option>
+            <option>BTech — Electronics &amp; Comm.</option><option>BTech — IT / Software</option>
+            <option>BTech — AI / Machine Learning</option><option>BTech — Data Science</option>
+            <option>BTech — Biotechnology</option><option>BTech — Chemical Engineering</option>
+            <option>BTech — Architecture</option>
+          </optgroup>
+          <optgroup label="BSc">
+            <option>BSc — Physics</option><option>BSc — Chemistry</option>
+            <option>BSc — Mathematics</option><option>BSc — Computer Science</option>
+            <option>BSc — Statistics</option><option>BSc — Biology / Biotechnology</option>
+            <option>BSc — Psychology</option><option>BSc — Economics</option>
+            <option>BSc — Environmental Science</option><option>BSc — Data Science</option>
+          </optgroup>
+          <optgroup label="BA / BHum">
+            <option>BA — English Literature</option><option>BA — History</option>
+            <option>BA — Political Science</option><option>BA — Sociology</option>
+            <option>BA — Philosophy</option><option>BA — Economics</option>
+            <option>BA — Journalism / Mass Comm.</option><option>BA — Psychology</option>
+          </optgroup>
+          <optgroup label="Commerce">
+            <option>BBA — General Management</option><option>BBA — Marketing</option>
+            <option>BBA — Finance</option><option>BBA — HR</option>
+            <option>BCom — Accounting &amp; Finance</option><option>BCom — Banking &amp; Insurance</option>
+            <option>BCom (Hons)</option>
+          </optgroup>
+          <optgroup label="MTech / ME">
+            <option>MTech — Computer Science</option><option>MTech — AI / ML</option>
+            <option>MTech — VLSI / Embedded</option><option>MTech — Data Engineering</option>
+            <option>MTech — Robotics &amp; Automation</option><option>MTech — Structural / Civil</option>
+          </optgroup>
+          <optgroup label="MSc">
+            <option>MSc — Data Science</option><option>MSc — Physics</option>
+            <option>MSc — Chemistry</option><option>MSc — Mathematics</option>
+            <option>MSc — Biotechnology</option><option>MSc — Environmental Science</option>
+            <option>MSc — Computer Science</option><option>MSc — Statistics</option>
+          </optgroup>
+          <optgroup label="MA">
+            <option>MA — Economics</option><option>MA — English</option>
+            <option>MA — Political Science</option><option>MA — Psychology</option>
+            <option>MA — Sociology</option><option>MA — Journalism / Mass Comm.</option>
+          </optgroup>
+          <optgroup label="MBA">
+            <option>MBA — General Management</option><option>MBA — Finance</option>
+            <option>MBA — Marketing</option><option>MBA — HR</option>
+            <option>MBA — Operations / Supply Chain</option><option>MBA — Business Analytics</option>
+          </optgroup>
+          <optgroup label="Law">
+            <option>LLB — General</option><option>LLB — Corporate / Business</option>
+            <option>LLB — Criminal</option><option>LLM — Corporate</option><option>LLM — IPR</option>
+          </optgroup>
+          <optgroup label="Medical / Healthcare">
+            <option>MBBS</option><option>BDS (Dentistry)</option>
+            <option>BPharm / MPharm</option><option>BSc Nursing / GNM</option>
+            <option>BPT (Physiotherapy)</option><option>MPH (Public Health)</option>
+          </optgroup>
+          <option>Other</option>
         </select>
       </div>
       <div class="cfield">
@@ -372,7 +462,7 @@ select option{background:var(--black3);}
     </div>
   </div>
 </div>
-
+ 
 <footer>
   <div class="footer-inner">
     <div class="footer-top">
@@ -397,15 +487,15 @@ select option{background:var(--black3);}
     </div>
   </div>
 </footer>
-
+ 
 <!-- ══════════════════════════════════════════════════════════ BUILDER -->
 <div class="progress-wrap hidden" id="progress-wrap">
   <div class="progress-steps" id="progress-steps"></div>
   <div class="progress-bar-track"><div class="progress-bar-fill" id="progress-fill"></div></div>
 </div>
-
+ 
 <div class="form-area hidden" id="form-area">
-
+ 
   <div class="section-card" id="step-0">
     <div class="card-header"><div class="card-icon">👤</div><div><div class="card-title">Personal Information</div><div class="card-sub">The basics — appears at the very top of your resume.</div></div></div>
     <div id="stream-badge-display"></div>
@@ -429,28 +519,28 @@ select option{background:var(--black3);}
     <div class="field-row single"><div class="field"><label>Professional Summary (2–3 lines)</label><textarea id="summary" placeholder="Write a brief summary of your goals, skills, and what you bring to the table..."></textarea></div></div>
     <div class="nav-btns"><span></span><button class="btn-gold" onclick="goStep(1)">Next →</button></div>
   </div>
-
+ 
   <div class="section-card" id="step-1">
     <div class="card-header"><div class="card-icon">🎓</div><div><div class="card-title">Education</div><div class="card-sub">Your degree, institution, and grades.</div></div></div>
     <div id="edu-entries"></div>
     <button class="add-btn" onclick="addEdu()">+ Add Education</button>
     <div class="nav-btns"><button class="btn-ghost" onclick="goStep(0)">← Back</button><button class="btn-gold" onclick="goStep(2)">Next →</button></div>
   </div>
-
+ 
   <div class="section-card" id="step-2">
     <div class="card-header"><div class="card-icon">💼</div><div><div class="card-title" id="exp-step-title">Internships &amp; Experience</div><div class="card-sub">Internships, training, part-time, or volunteer roles.</div></div></div>
     <div id="exp-entries"></div>
     <button class="add-btn" onclick="addExp()">+ Add Experience</button>
     <div class="nav-btns"><button class="btn-ghost" onclick="goStep(1)">← Back</button><button class="btn-gold" onclick="goStep(3)">Next →</button></div>
   </div>
-
+ 
   <div class="section-card" id="step-3">
     <div class="card-header"><div class="card-icon">🚀</div><div><div class="card-title" id="proj-step-title">Projects</div><div class="card-sub">Academic, personal, or open-source work you are proud of.</div></div></div>
     <div id="proj-entries"></div>
     <button class="add-btn" onclick="addProj()">+ Add Project</button>
     <div class="nav-btns"><button class="btn-ghost" onclick="goStep(2)">← Back</button><button class="btn-gold" onclick="goStep(4)">Next →</button></div>
   </div>
-
+ 
   <div class="section-card" id="step-4">
     <div class="card-header"><div class="card-icon">⚡</div><div><div class="card-title">Skills &amp; Languages</div><div class="card-sub">Add skills manually, use job-based suggestions, or stream suggestions.</div></div></div>
     <div class="job-inline-section">
@@ -487,22 +577,22 @@ select option{background:var(--black3);}
     </div>
     <div class="nav-btns"><button class="btn-ghost" onclick="goStep(3)">← Back</button><button class="btn-gold" onclick="goStep(5)">Next →</button></div>
   </div>
-
+ 
   <div class="section-card" id="step-5">
     <div class="card-header"><div class="card-icon">🏆</div><div><div class="card-title">Certifications &amp; Awards</div><div class="card-sub">Online courses, competition wins, scholarships, honors.</div></div></div>
     <div id="cert-entries"></div>
     <button class="add-btn" onclick="addCert()">+ Add Certification / Award</button>
     <div class="nav-btns"><button class="btn-ghost" onclick="goStep(4)">← Back</button><button class="btn-gold" onclick="goStep(6)">Next →</button></div>
   </div>
-
+ 
   <div class="section-card" id="step-6">
     <div class="card-header"><div class="card-icon">🌸</div><div><div class="card-title">Hobbies &amp; Interests</div><div class="card-sub">A personal touch that makes you memorable to recruiters.</div></div></div>
     <div class="field-row single"><div class="field"><label>Hobbies (comma separated)</label><input type="text" id="hobbies" placeholder="e.g. Sketching, Reading, Open-source contributing, Blogging"/></div></div>
     <div class="nav-btns"><button class="btn-ghost" onclick="goStep(5)">← Back</button><button class="btn-gold" onclick="generateResume()">✦ Generate My Resume</button></div>
   </div>
-
+ 
 </div>
-
+ 
 <!-- ══════════════════════════════════════════════════════════ PREVIEW -->
 <div id="preview-section">
   <div class="preview-toolbar">
@@ -515,29 +605,140 @@ select option{background:var(--black3);}
   <div class="ats-panel" id="ats-panel"></div>
   <div id="resume-doc"></div>
 </div>
-
+ 
 <script>
 // ── CONFIG ─────────────────────────────────────────────────────────────────────
-// IMPORTANT: After deploying your backend, replace the URL below with your
-// actual Render/Railway backend URL, e.g.:
-// const BACKEND_URL = 'https://resumecraft-backend.onrender.com';
 const BACKEND_URL = 'https://resume-generator-zp2g.onrender.com';
-
-// ── DATA ───────────────────────────────────────────────────────────────────────
-const STREAMS = [
-  {id:'mech',icon:'⚙️',name:'Mechanical',desc:'ME, Automobile, Manufacturing',skills:['AutoCAD','SolidWorks','CATIA','ANSYS','MATLAB','Pro-E','GD&T','FEA','Thermodynamics','CNC Programming','Lean Manufacturing','Six Sigma'],expLabel:'Internships & Industrial Training',projLabel:'Design & Research Projects',jobs:['Design Engineer','Manufacturing Engineer','CAD Designer','Quality Engineer','Production Engineer','Automobile Engineer','HVAC Engineer','Maintenance Engineer']},
-  {id:'civil',icon:'🏗️',name:'Civil',desc:'Structural, Construction, Env.',skills:['AutoCAD','Revit','STAAD Pro','ETABS','SAP2000','MATLAB','MS Project','Primavera','GIS','AutoDesk Civil 3D','Surveying','Total Station'],expLabel:'Site Experience & Internships',projLabel:'Design & Survey Projects',jobs:['Structural Engineer','Site Engineer','Project Manager','Environmental Engineer','Urban Planner','Quantity Surveyor','Transportation Engineer','Water Resources Engineer']},
-  {id:'cs',icon:'💻',name:'Computer Science',desc:'Software, AI/ML, Data Science',skills:['Python','JavaScript','React','Node.js','SQL','Git','Machine Learning','Data Structures','C++','Java','MongoDB','REST APIs'],expLabel:'Internships & Work Experience',projLabel:'Software Projects',jobs:['Software Engineer','Frontend Developer','Backend Developer','Full Stack Developer','Data Scientist','Machine Learning Engineer','DevOps Engineer','Android Developer']},
-  {id:'ee',icon:'⚡',name:'Electrical',desc:'Power, Control, Renewable Energy',skills:['MATLAB','Simulink','PLC Programming','SCADA','AutoCAD Electrical','Power Systems','Circuit Design','ETAP','Microcontrollers','PSPICE','Relay Protection','Transformer Design'],expLabel:'Industrial Training & Internships',projLabel:'Electrical Design Projects',jobs:['Power Systems Engineer','Control Engineer','Electrical Design Engineer','PLC Programmer','Renewable Energy Engineer','Protection Engineer','Field Engineer','Automation Engineer']},
-  {id:'ece',icon:'📡',name:'Electronics',desc:'ECE, Embedded, VLSI, IoT',skills:['Embedded C','Arduino','Raspberry Pi','VLSI Design','PCB Design','MATLAB','LabVIEW','Verilog/VHDL','IoT','Signal Processing','Keil','Proteus'],expLabel:'Internships & Training',projLabel:'Electronics & IoT Projects',jobs:['Embedded Systems Engineer','VLSI Design Engineer','IoT Developer','RF Engineer','PCB Designer','Signal Processing Engineer','Firmware Engineer','Hardware Engineer']},
-  {id:'it',icon:'🌐',name:'IT / Software',desc:'Web Dev, Cybersecurity, Cloud',skills:['HTML/CSS','JavaScript','Python','React','SQL','AWS','Docker','Linux','Cybersecurity','REST APIs','GitHub','Agile/Scrum'],expLabel:'Internships & Work Experience',projLabel:'Web & Cloud Projects',jobs:['Web Developer','Cloud Engineer','Cybersecurity Analyst','Database Administrator','Network Engineer','IT Support Engineer','Systems Analyst','Solutions Architect']},
-  {id:'bba',icon:'📊',name:'Business / MBA',desc:'Management, Finance, Marketing',skills:['MS Excel','PowerPoint','Tally ERP','SAP','Financial Modeling','Market Research','Google Analytics','CRM Tools','Tableau','Python for Finance','SQL','Business Analysis'],expLabel:'Work Experience & Internships',projLabel:'Research & Case Studies',jobs:['Business Analyst','Financial Analyst','Marketing Manager','Product Manager','HR Manager','Operations Manager','Investment Analyst','Consultant']},
-  {id:'arts',icon:'🎨',name:'Arts / Humanities',desc:'Literature, Psychology, Design',skills:['Content Writing','Adobe Photoshop','Canva','Video Editing','Research & Analysis','Social Media Management','SEO/SEM','UX Writing','Public Speaking','MS Office','WordPress','Figma'],expLabel:'Internships & Volunteering',projLabel:'Research & Creative Projects',jobs:['Content Writer','UX Designer','Social Media Manager','Graphic Designer','Copywriter','PR Executive','Journalist','Research Analyst']},
-  {id:'medical',icon:'🩺',name:'Medical / MBBS',desc:'Doctors, Healthcare, Clinical',skills:['Clinical Diagnosis','Patient Management','Medical Research','ECG Interpretation','Anatomy','Pharmacology','Surgical Assistance','Emergency Care','Medical Ethics','Electronic Health Records','Pathology','Radiology Basics'],expLabel:'Clinical Rotations & Internships',projLabel:'Research & Case Studies',jobs:['General Physician','Surgeon','Pediatrician','Cardiologist','Resident Doctor','Medical Officer','Clinical Researcher','Public Health Officer']},
-  {id:'law',icon:'⚖️',name:'Law / LLB',desc:'Legal, Corporate, Litigation',skills:['Legal Research','Contract Drafting','Case Analysis','Moot Court','Legal Writing','Corporate Law','Criminal Law','Constitutional Law','Arbitration','Negotiation','MS Word','LexisNexis'],expLabel:'Internships & Legal Aid',projLabel:'Moot Court & Research Papers',jobs:['Corporate Lawyer','Litigation Attorney','Legal Advisor','Public Prosecutor','Legal Researcher','Compliance Officer','Intellectual Property Lawyer','Judge Advocate']},
-  {id:'arch',icon:'🏛️',name:'Architecture',desc:'Design, Urban Planning, Interior',skills:['AutoCAD','Revit','SketchUp','3ds Max','Photoshop','Rhino','Lumion','V-Ray','Hand Drafting','BIM','Urban Design','Sustainable Design'],expLabel:'Studio Work & Internships',projLabel:'Design & Urban Projects',jobs:['Architect','Interior Designer','Urban Planner','Landscape Architect','BIM Specialist','Construction Manager','Design Consultant','Restoration Architect']}
-];
-
+ 
+// ── DEGREE → BRANCH DATA ───────────────────────────────────────────────────────
+// Each degree contains branches; each branch is a stream object (same shape as original STREAMS).
+const DEGREE_DATA = {
+  'BTech / BE': {
+    icon: '⚙️',
+    branches: [
+      {id:'mech',icon:'⚙️',name:'Mechanical',desc:'Design, Manufacturing, Automobile',skills:['AutoCAD','SolidWorks','CATIA','ANSYS','MATLAB','Pro-E','GD&T','FEA','Thermodynamics','CNC Programming','Lean Manufacturing','Six Sigma'],expLabel:'Internships & Industrial Training',projLabel:'Design & Research Projects',jobs:['Design Engineer','Manufacturing Engineer','CAD Designer','Quality Engineer','Production Engineer','Automobile Engineer','HVAC Engineer','Maintenance Engineer']},
+      {id:'civil',icon:'🏗️',name:'Civil',desc:'Structural, Construction, Environmental',skills:['AutoCAD','Revit','STAAD Pro','ETABS','SAP2000','MATLAB','MS Project','Primavera','GIS','Civil 3D','Surveying','Total Station'],expLabel:'Site Experience & Internships',projLabel:'Design & Survey Projects',jobs:['Structural Engineer','Site Engineer','Project Manager','Environmental Engineer','Urban Planner','Quantity Surveyor','Transportation Engineer','Water Resources Engineer']},
+      {id:'cs_btech',icon:'💻',name:'Computer Science',desc:'Software, AI/ML, Data Science',skills:['Python','JavaScript','React','Node.js','SQL','Git','Machine Learning','Data Structures','C++','Java','MongoDB','REST APIs'],expLabel:'Internships & Work Experience',projLabel:'Software Projects',jobs:['Software Engineer','Frontend Developer','Backend Developer','Full Stack Developer','Data Scientist','ML Engineer','DevOps Engineer','Android Developer']},
+      {id:'ee',icon:'⚡',name:'Electrical',desc:'Power, Control, Renewable Energy',skills:['MATLAB','Simulink','PLC Programming','SCADA','AutoCAD Electrical','Power Systems','Circuit Design','ETAP','Microcontrollers','PSPICE','Relay Protection','Transformer Design'],expLabel:'Industrial Training & Internships',projLabel:'Electrical Design Projects',jobs:['Power Systems Engineer','Control Engineer','Electrical Design Engineer','PLC Programmer','Renewable Energy Engineer','Protection Engineer','Field Engineer','Automation Engineer']},
+      {id:'ece',icon:'📡',name:'Electronics & Comm.',desc:'ECE, Embedded, VLSI, IoT',skills:['Embedded C','Arduino','Raspberry Pi','VLSI Design','PCB Design','MATLAB','LabVIEW','Verilog/VHDL','IoT','Signal Processing','Keil','Proteus'],expLabel:'Internships & Training',projLabel:'Electronics & IoT Projects',jobs:['Embedded Systems Engineer','VLSI Design Engineer','IoT Developer','RF Engineer','PCB Designer','Signal Processing Engineer','Firmware Engineer','Hardware Engineer']},
+      {id:'it_btech',icon:'🌐',name:'IT / Software',desc:'Web Dev, Cybersecurity, Cloud',skills:['HTML/CSS','JavaScript','Python','React','SQL','AWS','Docker','Linux','Cybersecurity','REST APIs','GitHub','Agile/Scrum'],expLabel:'Internships & Work Experience',projLabel:'Web & Cloud Projects',jobs:['Web Developer','Cloud Engineer','Cybersecurity Analyst','Database Administrator','Network Engineer','IT Support Engineer','Systems Analyst','Solutions Architect']},
+      {id:'aiml_btech',icon:'🤖',name:'AI / Machine Learning',desc:'ML, Deep Learning, NLP, Vision',skills:['Python','TensorFlow','PyTorch','Scikit-learn','NLP','Computer Vision','SQL','Statistics','MLOps','Docker','Pandas','NumPy'],expLabel:'Internships & Research',projLabel:'AI/ML Projects',jobs:['ML Engineer','Data Scientist','NLP Engineer','Computer Vision Engineer','AI Research Intern','MLOps Engineer','Data Analyst','Research Scientist']},
+      {id:'ds_btech',icon:'📊',name:'Data Science',desc:'Analytics, Big Data, Visualisation',skills:['Python','SQL','Tableau','Power BI','Machine Learning','Statistics','Spark','R','Excel','Data Wrangling','Feature Engineering','Predictive Modelling'],expLabel:'Internships & Analytics Projects',projLabel:'Data Science Projects',jobs:['Data Analyst','Data Scientist','BI Analyst','Data Engineer','Analytics Consultant','Research Analyst','Product Analyst','Statistician']},
+      {id:'biotech_btech',icon:'🧬',name:'Biotechnology',desc:'Molecular Biology, Bioinformatics',skills:['Molecular Biology','Biochemistry','Genetics','Bioinformatics','Cell Biology','Fermentation Tech.','Bio-process Engg.','PCR','ELISA','MATLAB','Python','R'],expLabel:'Lab Internships & Research',projLabel:'Research & Lab Projects',jobs:['Research Associate','Biotech Analyst','QA/QC Analyst','Bioinformatics Analyst','Lab Technician','Clinical Research Associate','Regulatory Affairs Associate','Genomics Analyst']},
+      {id:'chem_btech',icon:'⚗️',name:'Chemical Engineering',desc:'Process Design, Reaction Engg.',skills:['Aspen Plus','HYSYS','AutoCAD','MATLAB','Mass Transfer','Heat Transfer','Fluid Dynamics','Process Safety','Thermodynamics','ChemDraw','PRO/II','COMSOL'],expLabel:'Industrial Training & Internships',projLabel:'Process Design Projects',jobs:['Process Engineer','Chemical Engineer','Plant Engineer','Safety Engineer','R&D Engineer','Quality Engineer','Environmental Engineer','Petrochemical Engineer']},
+      {id:'arch_btech',icon:'🏛️',name:'Architecture',desc:'Design, Urban Planning, Interior',skills:['AutoCAD','Revit','SketchUp','3ds Max','Photoshop','Rhino','Lumion','V-Ray','Hand Drafting','BIM','Urban Design','Sustainable Design'],expLabel:'Studio Work & Internships',projLabel:'Design & Urban Projects',jobs:['Architect','Interior Designer','Urban Planner','Landscape Architect','BIM Specialist','Construction Manager','Design Consultant','Restoration Architect']}
+    ]
+  },
+  'BSc': {
+    icon: '🔬',
+    branches: [
+      {id:'phys_bsc',icon:'🔭',name:'Physics',desc:'Quantum, Optics, Electronics',skills:['MATLAB','Python','LaTeX','Experimental Physics','Quantum Mechanics','Optics','Thermodynamics','Electromagnetism','Nuclear Physics','Circuit Design','LabVIEW','Research Methods'],expLabel:'Research Internships',projLabel:'Research & Experimental Projects',jobs:['Research Scientist','Lab Technician','Data Analyst','Physics Teacher','Instrumentation Engineer','Radiation Safety Officer','Science Writer','QA Analyst']},
+      {id:'chem_bsc',icon:'🧪',name:'Chemistry',desc:'Organic, Analytical, Biochemistry',skills:['Organic Chemistry','Analytical Chemistry','Spectroscopy','Chromatography','Lab Techniques','ChemDraw','Python','R','HPLC','NMR','Mass Spectrometry','Safety Protocols'],expLabel:'Lab Internships & Research',projLabel:'Research & Lab Projects',jobs:['Lab Analyst','Quality Control Analyst','Research Associate','Chemist','Pharmaceutical Analyst','Formulation Scientist','Environmental Analyst','Forensic Scientist']},
+      {id:'math_bsc',icon:'📐',name:'Mathematics',desc:'Pure, Applied, Statistics',skills:['Python','R','MATLAB','LaTeX','Linear Algebra','Calculus','Statistics','Numerical Methods','Algorithms','Data Analysis','Probability','Mathematical Modelling'],expLabel:'Internships & Traineeships',projLabel:'Research & Modelling Projects',jobs:['Data Analyst','Actuary','Quantitative Analyst','Statistician','Risk Analyst','Operations Research Analyst','Financial Analyst','Research Associate']},
+      {id:'cs_bsc',icon:'💻',name:'Computer Science',desc:'Programming, Networks, Web',skills:['Python','C++','Java','Data Structures','DBMS','Operating Systems','Computer Networks','Software Engineering','Web Dev','Git','Algorithms','OOP'],expLabel:'Internships & Work Experience',projLabel:'Software & Web Projects',jobs:['Software Developer','Web Developer','IT Support Engineer','Database Administrator','Systems Analyst','Network Engineer','QA Tester','Junior Developer']},
+      {id:'stats_bsc',icon:'📈',name:'Statistics',desc:'Probability, Regression, R/SAS',skills:['R','Python','SAS','SPSS','Excel','Probability Theory','Regression Analysis','Hypothesis Testing','Time Series','Data Visualisation','SQL','Survey Design'],expLabel:'Internships & Research Assistantships',projLabel:'Statistical Analysis Projects',jobs:['Data Analyst','Statistician','Market Research Analyst','Survey Analyst','Biostatistician','Actuary','Risk Analyst','BI Analyst']},
+      {id:'bio_bsc',icon:'🌿',name:'Biology / Biotechnology',desc:'Genetics, Microbiology, Ecology',skills:['Molecular Biology','Cell Biology','Genetics','Microbiology','Ecology','Bioinformatics','PCR','Microscopy','Lab Safety','R','Python','Scientific Writing'],expLabel:'Lab & Field Internships',projLabel:'Research & Field Projects',jobs:['Research Associate','Lab Technician','Biotech Analyst','Environmental Scientist','Clinical Research Associate','Quality Control Analyst','Wildlife Biologist','Science Writer']},
+      {id:'psy_bsc',icon:'🧠',name:'Psychology',desc:'Cognitive, Social, Research Methods',skills:['Research Methods','SPSS','Excel','Survey Design','Cognitive Psychology','Social Psychology','Report Writing','Counselling Basics','Statistical Analysis','Literature Review','MS Office','Critical Thinking'],expLabel:'Internships & Clinical Placements',projLabel:'Research & Case Study Projects',jobs:['HR Executive','Counselling Assistant','Research Associate','Marketing Analyst','UX Researcher','Social Worker','Education Counsellor','Mental Health Support Worker']},
+      {id:'eco_bsc',icon:'💹',name:'Economics',desc:'Micro, Macro, Econometrics',skills:['Econometrics','R','Stata','Python','Excel','Microeconomics','Macroeconomics','Statistical Analysis','Data Visualisation','Report Writing','SQL','Policy Analysis'],expLabel:'Internships & Research Assistantships',projLabel:'Research & Policy Projects',jobs:['Economic Analyst','Research Associate','Policy Analyst','Financial Analyst','Data Analyst','Market Research Analyst','Consultant','Banking Executive']},
+      {id:'env_bsc',icon:'🌍',name:'Environmental Science',desc:'Ecology, GIS, Climate Science',skills:['GIS','Remote Sensing','ArcGIS','QGIS','R','Python','Environmental Assessment','Ecology','Field Research','Lab Analysis','Report Writing','Statistical Analysis'],expLabel:'Field & Lab Internships',projLabel:'Environmental Research Projects',jobs:['Environmental Analyst','GIS Analyst','Sustainability Consultant','Conservation Officer','Environmental Consultant','EIA Specialist','Research Associate','NGO Field Worker']},
+      {id:'ds_bsc',icon:'📊',name:'Data Science',desc:'Python, ML, Statistics, SQL',skills:['Python','R','SQL','Machine Learning','Statistics','Data Visualisation','Pandas','NumPy','Scikit-learn','Tableau','Excel','Big Data Basics'],expLabel:'Internships & Analytics Projects',projLabel:'Data Science Projects',jobs:['Data Analyst','Junior Data Scientist','BI Analyst','ML Intern','Analytics Consultant','Research Analyst','Product Analyst','SQL Developer']}
+    ]
+  },
+  'BA / BHum': {
+    icon: '📚',
+    branches: [
+      {id:'eng_ba',icon:'📖',name:'English Literature',desc:'Literary Criticism, Creative Writing',skills:['Content Writing','Research & Analysis','Critical Thinking','Academic Writing','Editing & Proofreading','SEO Writing','MS Office','WordPress','Social Media','Public Speaking','Creative Writing','Translation'],expLabel:'Internships & Editorial Work',projLabel:'Research Papers & Creative Projects',jobs:['Content Writer','Editor','Copywriter','Journalist','PR Executive','Social Media Manager','UX Writer','Academic Researcher']},
+      {id:'hist_ba',icon:'🏺',name:'History',desc:'Modern, Ancient, Archival Research',skills:['Historical Research','Archival Methods','Academic Writing','Critical Analysis','MS Office','Digital Humanities','Data Analysis','Report Writing','Public Speaking','Editing','Literature Review','Presentation'],expLabel:'Internships & Research Assistantships',projLabel:'Research Papers & Archival Projects',jobs:['Researcher','Archivist','Journalist','Policy Analyst','Museum Curator','Content Writer','Heritage Consultant','Academic']},
+      {id:'polsci_ba',icon:'🗳️',name:'Political Science',desc:'IR, Public Policy, Governance',skills:['Policy Analysis','Research Methods','Public Speaking','MS Office','Data Analysis','Report Writing','International Relations','Academic Writing','Debate & Argumentation','Statistical Analysis','Digital Research','Presentation'],expLabel:'Internships & Policy Research',projLabel:'Research Papers & Policy Projects',jobs:['Policy Analyst','Political Consultant','Journalist','Diplomat','NGO Officer','Public Affairs Associate','Research Associate','Civil Services']},
+      {id:'soc_ba',icon:'🤝',name:'Sociology',desc:'Social Theory, Gender Studies, Research',skills:['Qualitative Research','Quantitative Research','SPSS','Report Writing','Field Research','Survey Design','Academic Writing','Critical Thinking','Community Work','Data Analysis','Presentation','MS Office'],expLabel:'Field Internships & NGO Work',projLabel:'Research Papers & Field Projects',jobs:['Social Researcher','NGO Officer','HR Executive','Community Manager','Content Writer','Policy Analyst','CSR Associate','Public Relations']},
+      {id:'phil_ba',icon:'🌀',name:'Philosophy',desc:'Ethics, Logic, Epistemology',skills:['Critical Thinking','Logical Reasoning','Academic Writing','Research Methods','Ethics & Compliance','Public Speaking','Argumentation','Policy Analysis','Report Writing','Editing','Literature Review','MS Office'],expLabel:'Internships & Research Work',projLabel:'Research Papers & Essays',jobs:['Ethicist','Policy Analyst','Content Writer','Legal Research Intern','HR Associate','Academic Researcher','NGO Officer','Journalist']},
+      {id:'eco_ba',icon:'💹',name:'Economics',desc:'Micro, Macro, Development Economics',skills:['Econometrics','R','Stata','Excel','Microeconomics','Macroeconomics','Statistical Analysis','Data Visualisation','Report Writing','SQL','Python Basics','Policy Analysis'],expLabel:'Internships & Research Assistantships',projLabel:'Research & Policy Projects',jobs:['Economic Analyst','Research Associate','Policy Analyst','Financial Analyst','Data Analyst','Market Research Analyst','Consultant','Banking Executive']},
+      {id:'jour_ba',icon:'📰',name:'Journalism / Mass Comm.',desc:'News, Digital Media, PR',skills:['News Writing','Editing','Digital Journalism','Social Media Management','Photography','Video Editing','Canva','MS Office','Public Relations','SEO','Interviewing','Content Strategy'],expLabel:'Internships & Editorial Placements',projLabel:'Journalism & Media Projects',jobs:['Journalist','Content Writer','PR Executive','Social Media Manager','News Anchor','Copywriter','Digital Marketer','Media Researcher']},
+      {id:'psy_ba',icon:'🧠',name:'Psychology',desc:'Cognitive, Social, Counselling',skills:['Research Methods','SPSS','Survey Design','Counselling Basics','Social Psychology','Report Writing','Statistical Analysis','MS Office','Critical Thinking','Literature Review','Public Speaking','Presentation'],expLabel:'Internships & Clinical Placements',projLabel:'Research & Case Study Projects',jobs:['HR Executive','Counselling Assistant','Research Associate','Marketing Analyst','UX Researcher','Social Worker','Education Counsellor','Mental Health Support Worker']}
+    ]
+  },
+  'Commerce': {
+    icon: '💼',
+    branches: [
+      {id:'bba_gen',icon:'📊',name:'BBA — Management',desc:'General Management, Operations',skills:['MS Excel','PowerPoint','Business Communication','Management Principles','Marketing Basics','HR Fundamentals','Operations Mgmt','Business Law','Tally','Entrepreneurship','Financial Accounting','CRM Tools'],expLabel:'Internships & Management Trainee',projLabel:'Business Case Studies & Projects',jobs:['Management Trainee','Business Analyst','Operations Executive','HR Executive','Sales Executive','Project Coordinator','Consultant Intern','Entrepreneur']},
+      {id:'bba_mkt',icon:'📣',name:'BBA — Marketing',desc:'Digital Marketing, Brand, Sales',skills:['Digital Marketing','SEO/SEM','Google Analytics','Social Media Marketing','Content Strategy','Canva','HubSpot','Market Research','MS Excel','PowerPoint','Advertising','Email Marketing'],expLabel:'Internships & Marketing Roles',projLabel:'Marketing Campaigns & Case Studies',jobs:['Digital Marketer','Brand Executive','Social Media Manager','Market Research Analyst','Content Marketer','SEO Analyst','PR Executive','Sales Executive']},
+      {id:'bba_fin',icon:'💰',name:'BBA — Finance',desc:'Corporate Finance, Banking, Investment',skills:['MS Excel','Financial Modeling','Tally ERP','Financial Analysis','Accounting Principles','Corporate Finance','Investment Basics','Derivatives','Risk Management','SQL','PowerPoint','Bloomberg Basics'],expLabel:'Internships & Finance Roles',projLabel:'Financial Analysis Projects',jobs:['Financial Analyst','Investment Banking Intern','Credit Analyst','Finance Executive','Risk Analyst','Equity Research Intern','Banking Associate','Consultant']},
+      {id:'bba_hr',icon:'👥',name:'BBA — HR',desc:'Talent, OD, Industrial Relations',skills:['Recruitment','MS Excel','HRMS Tools','Employee Relations','Training & Development','Compensation Mgmt','Organisational Behaviour','Labour Law','Payroll','HR Analytics','Communication','PowerPoint'],expLabel:'Internships & HR Roles',projLabel:'HR Case Studies & Projects',jobs:['HR Executive','Talent Acquisition Intern','HR Analyst','Recruiter','Training Coordinator','L&D Executive','HR Business Partner Intern','People Operations']},
+      {id:'bcom_acc',icon:'🧾',name:'BCom — Accounting',desc:'Financial Accounting, Auditing, Tax',skills:['Financial Accounting','Cost Accounting','Auditing','Taxation (GST/IT)','Corporate Law','Tally ERP','MS Excel','Financial Reporting','ERP (SAP)','Budget Analysis','Business Law','Statutory Compliance'],expLabel:'Internships & Articleship',projLabel:'Accounting & Audit Projects',jobs:['Accountant','Auditor','Tax Consultant','Finance Executive','Cost Accountant','CA Articleship','Compliance Officer','Financial Analyst']},
+      {id:'bcom_bank',icon:'🏦',name:'BCom — Banking & Insurance',desc:'Banking Ops, Insurance, Forex',skills:['Banking Operations','Insurance Principles','Financial Markets','Forex Management','Risk Management','Corporate Finance','Tally ERP','MS Excel','Financial Analysis','Economic Policy','Credit Analysis','Regulatory Compliance'],expLabel:'Internships & Banking Roles',projLabel:'Banking & Finance Projects',jobs:['Bank PO','Insurance Advisor','Financial Planner','Credit Analyst','Investment Executive','Banking Associate','Risk Analyst','Relationship Manager']},
+      {id:'bcom_hons',icon:'🏅',name:'BCom (Hons)',desc:'Advanced Accountancy, Statistics',skills:['Advanced Accountancy','Business Statistics','Corporate Law','Macroeconomics','Cost Accounting','Financial Reporting','Auditing','Tally ERP','MS Excel','Taxation','Research Methods','PowerPoint'],expLabel:'Internships & Articleship',projLabel:'Research & Accounting Projects',jobs:['Chartered Accountant Intern','Financial Analyst','Auditor','Tax Consultant','Business Analyst','Corporate Finance Intern','Compliance Officer','Cost Accountant']}
+    ]
+  },
+  'MTech / ME': {
+    icon: '🔧',
+    branches: [
+      {id:'cs_mtech',icon:'💻',name:'Computer Science',desc:'Algorithms, Distributed Systems, Security',skills:['Advanced Algorithms','Distributed Systems','Cloud Computing','Cybersecurity','Machine Learning','Research Methodology','High-Performance Computing','Docker','Kubernetes','Python','C++','System Design'],expLabel:'Research & Industry Experience',projLabel:'Research & Thesis Projects',jobs:['Senior Software Engineer','Research Scientist','System Architect','Security Engineer','Cloud Architect','ML Engineer','Tech Lead','Research Engineer']},
+      {id:'aiml_mtech',icon:'🤖',name:'AI / ML',desc:'Neural Networks, NLP, MLOps',skills:['Deep Learning','NLP','Computer Vision','Reinforcement Learning','MLOps','PyTorch','TensorFlow','Docker','Research Methods','Advanced Statistics','Python','Distributed ML'],expLabel:'Research & Industry Experience',projLabel:'Research & Thesis Projects',jobs:['ML Research Engineer','NLP Engineer','Computer Vision Engineer','AI Scientist','MLOps Engineer','Data Science Lead','Research Associate','AI Consultant']},
+      {id:'vlsi_mtech',icon:'📡',name:'VLSI / Embedded',desc:'FPGA, SoC, RTL, Low-Power Design',skills:['FPGA Design','SoC Architecture','Embedded C','VLSI Fabrication','Low-Power Design','RTL Design','SystemVerilog','Cadence','Synopsys','MATLAB','Python','Verification'],expLabel:'Industry & Research Experience',projLabel:'VLSI & Embedded Projects',jobs:['VLSI Design Engineer','Verification Engineer','FPGA Engineer','SoC Design Engineer','Physical Design Engineer','Embedded Systems Engineer','RTL Designer','Semiconductor Engineer']},
+      {id:'de_mtech',icon:'🗄️',name:'Data Engineering',desc:'Pipelines, Spark, Kafka, Cloud',skills:['Apache Spark','Apache Kafka','Python','SQL & NoSQL','ETL Design','AWS/Azure/GCP','Data Governance','Airflow','Scala','Data Pipelines','dbt','Snowflake'],expLabel:'Industry & Research Experience',projLabel:'Data Engineering Projects',jobs:['Data Engineer','Senior Data Engineer','ML Engineer','Cloud Data Architect','Analytics Engineer','Platform Engineer','Data Infrastructure Lead','Big Data Engineer']},
+      {id:'rob_mtech',icon:'🦾',name:'Robotics & Automation',desc:'ROS, Control Systems, Kinematics',skills:['ROS / ROS2','Robot Kinematics','Control Systems','Sensor Fusion','Computer Vision','PLC Programming','MATLAB','Python','C++','Autonomous Systems','SLAM','Embedded Systems'],expLabel:'Research & Industry Experience',projLabel:'Robotics & Automation Projects',jobs:['Robotics Engineer','Automation Engineer','Control Systems Engineer','Research Scientist','Field Robotics Engineer','Manufacturing Automation Engineer','AI Robotics Engineer','Mechatronics Engineer']},
+      {id:'struct_mtech',icon:'🏗️',name:'Structural / Civil',desc:'FEM, Earthquake Engg., Bridge Design',skills:['FEM / FEA','ETABS','SAP2000','STAAD Pro','AutoCAD','Revit','Earthquake Engineering','Bridge Design','Geotechnical Methods','Construction Tech.','MATLAB','MS Project'],expLabel:'Research & Site Experience',projLabel:'Structural Design & Research Projects',jobs:['Structural Engineer','Project Manager','Bridge Design Engineer','Geotechnical Engineer','Construction Manager','Research Engineer','Site Engineer','BIM Manager']}
+    ]
+  },
+  'MSc': {
+    icon: '🎓',
+    branches: [
+      {id:'ds_msc',icon:'📊',name:'Data Science',desc:'ML, Deep Learning, Big Data',skills:['Machine Learning','Deep Learning','Python','R','SQL','Spark','Data Visualisation','NLP','Statistical Modelling','TensorFlow','Feature Engineering','Research Methods'],expLabel:'Research & Industry Internships',projLabel:'Research & Data Science Projects',jobs:['Data Scientist','ML Engineer','Research Scientist','Data Analyst','NLP Engineer','AI Consultant','Analytics Lead','Research Associate']},
+      {id:'phys_msc',icon:'🔭',name:'Physics',desc:'Quantum, Condensed Matter, Astrophysics',skills:['Quantum Mechanics','Condensed Matter Physics','MATLAB','Python','LaTeX','Computational Physics','Astrophysics','Research Methods','Photonics','Lab Techniques','Statistical Mechanics','Data Analysis'],expLabel:'Research Internships & Lab Work',projLabel:'Research & Thesis Projects',jobs:['Research Scientist','Data Scientist','Quantitative Analyst','Physics Teacher','Instrumentation Engineer','Science Writer','Computational Scientist','Lab Researcher']},
+      {id:'chem_msc',icon:'🧪',name:'Chemistry',desc:'Spectroscopy, Green Chemistry, Polymer',skills:['Spectroscopy','Polymer Chemistry','Green Chemistry','Computational Chemistry','Nanochemistry','Drug Synthesis','Analytical Methods','Mass Spectrometry','HPLC','NMR','Research Methods','ChemDraw'],expLabel:'Lab & Research Internships',projLabel:'Research & Thesis Projects',jobs:['Research Scientist','Pharmaceutical Chemist','Analytical Chemist','QA Scientist','Process Chemist','Formulation Scientist','Chemical Consultant','Academic Researcher']},
+      {id:'math_msc',icon:'📐',name:'Mathematics',desc:'Topology, Number Theory, Applied Math',skills:['Topology','Number Theory','Functional Analysis','Numerical Analysis','Python','MATLAB','R','LaTeX','Cryptography','Graph Theory','Applied Mathematics','Research Methods'],expLabel:'Research & Teaching Assistantships',projLabel:'Research & Thesis Projects',jobs:['Research Mathematician','Actuary','Quantitative Analyst','Data Scientist','Cryptographer','Operations Research Analyst','Financial Modeller','Academic']},
+      {id:'biotech_msc',icon:'🧬',name:'Biotechnology',desc:'Genomics, Drug Design, Bioinformatics',skills:['Genomics','Proteomics','Drug Design','Bioinformatics','Synthetic Biology','Python','R','Biopython','NGS Analysis','Lab Techniques','CRISPR','Research Methods'],expLabel:'Lab & Research Internships',projLabel:'Research & Thesis Projects',jobs:['Research Scientist','Bioinformatics Analyst','Genomics Researcher','Drug Discovery Scientist','Clinical Research Associate','Biotech Analyst','QA Scientist','Academic Researcher']},
+      {id:'env_msc',icon:'🌍',name:'Environmental Science',desc:'Climate Policy, GIS, Ecology',skills:['GIS','Remote Sensing','ArcGIS','R','Python','Climate Modelling','Environmental Policy','Ecology','Pollution Assessment','QGIS','Statistical Analysis','Report Writing'],expLabel:'Field & Research Internships',projLabel:'Environmental Research Projects',jobs:['Environmental Consultant','GIS Specialist','Climate Policy Analyst','Sustainability Manager','Research Scientist','Conservation Scientist','EIA Specialist','Environmental Planner']},
+      {id:'cs_msc',icon:'💻',name:'Computer Science',desc:'Algorithms, Cybersecurity, AI',skills:['Advanced Algorithms','Cybersecurity','Cloud Computing','AI & ML','Distributed Systems','Research Methods','Python','Java','System Design','Big Data','Docker','Network Security'],expLabel:'Research & Industry Internships',projLabel:'Research & Thesis Projects',jobs:['Software Engineer','Security Analyst','Research Scientist','Cloud Engineer','ML Engineer','Systems Architect','Data Engineer','Tech Lead']},
+      {id:'stats_msc',icon:'📈',name:'Statistics',desc:'Bayesian, Multivariate, Biostatistics',skills:['Bayesian Statistics','Multivariate Analysis','R','Python','Time Series Analysis','Biostatistics','Experimental Design','Computational Statistics','SAS','Machine Learning','Statistical Modelling','Research Methods'],expLabel:'Research & Consulting Internships',projLabel:'Statistical Research Projects',jobs:['Statistician','Biostatistician','Data Scientist','Actuary','Risk Analyst','Research Statistician','Quantitative Analyst','Statistical Consultant']}
+    ]
+  },
+  'MA': {
+    icon: '🎭',
+    branches: [
+      {id:'eco_ma',icon:'💹',name:'Economics',desc:'Advanced Macro, Game Theory, Public Finance',skills:['Advanced Macroeconomics','Game Theory','Public Finance','Econometrics','Stata','R','Python','Development Economics','Policy Analysis','Research Methods','LaTeX','Report Writing'],expLabel:'Research & Policy Internships',projLabel:'Research Papers & Thesis',jobs:['Economic Policy Analyst','Research Associate','Development Economist','Financial Analyst','Consultant','Public Finance Officer','NGO Economist','Academic Researcher']},
+      {id:'eng_ma',icon:'📖',name:'English',desc:'Literary Theory, Research, Critical Discourse',skills:['Literary Theory','Critical Analysis','Academic Writing','Research Methodology','Editing','Content Writing','SEO Writing','Translation','Public Speaking','MS Office','Presentation','Creative Writing'],expLabel:'Teaching, Research & Editorial Internships',projLabel:'Research Papers & Thesis',jobs:['Content Writer','Editor','Academic Researcher','Journalist','Copywriter','UX Writer','PR Executive','English Teacher']},
+      {id:'polsci_ma',icon:'🗳️',name:'Political Science',desc:'Comparative Politics, IR, Security Studies',skills:['Policy Analysis','IR Theory','Comparative Politics','Research Methods','Academic Writing','Public Speaking','Data Analysis','SPSS','Report Writing','Digital Research','Presentation','Stakeholder Engagement'],expLabel:'Research, Policy & NGO Internships',projLabel:'Research Papers & Policy Reports',jobs:['Policy Analyst','Diplomatic Service','NGO Officer','Political Consultant','Journalist','Public Affairs Associate','Research Associate','Civil Services']},
+      {id:'psy_ma',icon:'🧠',name:'Psychology',desc:'Clinical, Counselling, Neuropsychology',skills:['Clinical Psychology','Counselling Skills','Research Methods','SPSS','Psychological Assessment','Report Writing','Neuropsychology','Health Psychology','Psychometrics','Case Formulation','Ethics','Academic Writing'],expLabel:'Clinical Placements & Internships',projLabel:'Research & Case Study Projects',jobs:['Counsellor','Clinical Psychologist Intern','HR Executive','Research Associate','School Counsellor','Mental Health Support Worker','Psychometrician','UX Researcher']},
+      {id:'soc_ma',icon:'🤝',name:'Sociology',desc:'Qualitative Methods, Urban Sociology, Policy',skills:['Qualitative Research','Quantitative Research','SPSS','R','Field Research','Survey Design','Academic Writing','Policy Analysis','Community Development','Data Analysis','Report Writing','Critical Theory'],expLabel:'Field & NGO Internships',projLabel:'Research Papers & Field Projects',jobs:['Social Researcher','Policy Analyst','NGO Programme Officer','CSR Manager','HR Specialist','Community Development Officer','Research Associate','Journalist']},
+      {id:'jour_ma',icon:'📰',name:'Journalism / Mass Comm.',desc:'Digital Journalism, Media Law, PR',skills:['News Writing','Editing','Digital Journalism','Media Law & Ethics','Broadcast Production','Strategic Communication','PR & Crisis Mgmt','Social Media','Content Strategy','Video Editing','Photography','Research'],expLabel:'Media & Editorial Internships',projLabel:'Journalism & Media Projects',jobs:['Senior Journalist','Digital Media Manager','PR Manager','Content Strategist','Broadcast Producer','Social Media Manager','Media Researcher','Editor']}
+    ]
+  },
+  'MBA': {
+    icon: '🏢',
+    branches: [
+      {id:'mba_gen',icon:'📊',name:'General Management',desc:'Strategy, Leadership, Operations',skills:['Strategy','Organisational Behaviour','Business Analytics','Leadership','Operations Mgmt','Corporate Finance','Marketing','MS Excel','PowerPoint','Project Management','Stakeholder Mgmt','CRM'],expLabel:'Work Experience & Management Internships',projLabel:'Business Case Studies & Consulting Projects',jobs:['Management Consultant','Business Analyst','General Manager','Operations Manager','Strategy Analyst','Business Development Manager','Product Manager','Entrepreneur']},
+      {id:'mba_fin',icon:'💰',name:'Finance',desc:'Corporate Finance, Investment Banking, Risk',skills:['Corporate Finance','Investment Banking','Portfolio Mgmt','Derivatives','Risk Mgmt','Financial Modeling','Excel','Bloomberg','Mergers & Acquisitions','Valuation','CFA Basics','SQL'],expLabel:'Finance & Banking Experience',projLabel:'Financial Modelling & Case Studies',jobs:['Investment Banker','Financial Analyst','Risk Manager','Portfolio Manager','Corporate Finance Manager','Private Equity Analyst','Hedge Fund Analyst','CFO Track']},
+      {id:'mba_mkt',icon:'📣',name:'Marketing',desc:'Digital Marketing, Brand Strategy, CRM',skills:['Digital Marketing','Brand Strategy','Consumer Behaviour','Market Research','Content Strategy','CRM','Google Analytics','SEO/SEM','Social Media','Canva','HubSpot','Product Management'],expLabel:'Marketing & Brand Experience',projLabel:'Marketing Campaigns & Case Studies',jobs:['Marketing Manager','Brand Manager','Digital Marketing Manager','Product Marketing Manager','Market Research Manager','CMO Track','Growth Manager','Strategy Manager']},
+      {id:'mba_hr',icon:'👥',name:'HR',desc:'Talent, OD, HR Analytics, L&D',skills:['Talent Management','OD & Change Mgmt','HR Analytics','Compensation & Benefits','Industrial Relations','Leadership Dev.','Employment Law','HRMS Tools','Payroll','Workforce Planning','Succession Planning','Excel'],expLabel:'HR & People Experience',projLabel:'HR Strategy & Consulting Projects',jobs:['HR Business Partner','Talent Acquisition Lead','L&D Manager','Compensation & Benefits Manager','CHRO Track','OD Consultant','HR Analytics Manager','People Operations Lead']},
+      {id:'mba_ops',icon:'🔗',name:'Operations / Supply Chain',desc:'Logistics, Lean, Project Mgmt',skills:['Supply Chain Mgmt','Logistics','Lean & Six Sigma','Project Mgmt','Demand Forecasting','Procurement','Industry 4.0','SAP','ERP','MS Project','Operations Research','Excel'],expLabel:'Operations & Supply Chain Experience',projLabel:'Operations Optimisation Projects',jobs:['Supply Chain Manager','Operations Manager','Logistics Manager','Procurement Manager','Project Manager','Lean Consultant','Plant Manager','COO Track']},
+      {id:'mba_ba',icon:'🤖',name:'Business Analytics',desc:'Python, Predictive Modelling, BI',skills:['Python','R','SQL','Tableau','Power BI','Predictive Modelling','Machine Learning','Decision Sciences','Excel','AI for Business','Operations Research','Statistical Analysis'],expLabel:'Analytics & Consulting Experience',projLabel:'Analytics & Business Intelligence Projects',jobs:['Business Analyst','Data Scientist','Analytics Manager','BI Manager','Analytics Consultant','Product Analyst','Chief Analytics Officer Track','Strategy & Analytics Lead']}
+    ]
+  },
+  'Law': {
+    icon: '⚖️',
+    branches: [
+      {id:'llb_gen',icon:'⚖️',name:'LLB — General',desc:'Constitutional, Criminal, Civil Law',skills:['Legal Research','Contract Drafting','Case Analysis','Moot Court','Legal Writing','Constitutional Law','Criminal Law','Tort Law','Property Law','Evidence','LexisNexis','MS Word'],expLabel:'Internships & Legal Aid Clinics',projLabel:'Moot Court & Research Papers',jobs:['Litigation Attorney','Civil Lawyer','Legal Aid Lawyer','Judiciary Services','Legal Researcher','District Court Advocate','Public Prosecutor','Court Clerk']},
+      {id:'llb_corp',icon:'🏦',name:'LLB — Corporate / Business',desc:'Company Law, M&A, Securities',skills:['Corporate Law','Company Law','Mergers & Acquisitions','Securities Law','Intellectual Property','Contract Drafting','Due Diligence','Banking Law','Regulatory Compliance','Legal Research','Excel','MS Word'],expLabel:'Law Firm & Corporate Internships',projLabel:'Corporate Law Research & Projects',jobs:['Corporate Lawyer','In-house Counsel','M&A Lawyer','Securities Lawyer','Compliance Officer','Legal Advisor','Contract Manager','IP Lawyer']},
+      {id:'llb_crim',icon:'🔍',name:'LLB — Criminal',desc:'Criminal Procedure, Cyber Crime, Forensics',skills:['Criminal Procedure','Criminology','Cyber Crime Law','International Criminal Law','Victimology','Forensic Science Basics','Evidence Law','Investigation Procedure','Legal Research','Moot Court','Report Writing','MS Word'],expLabel:'Criminal Court & NGO Internships',projLabel:'Moot Court & Criminal Law Research',jobs:['Criminal Lawyer','Public Prosecutor','Police Legal Advisor','Forensic Legal Consultant','NGO Legal Officer','Criminal Justice Researcher','Judiciary Services','Legal Aid']},
+      {id:'llm_corp',icon:'🏢',name:'LLM — Corporate',desc:'Advanced Corporate, Tax, Arbitration',skills:['Advanced Corporate Law','Tax Law','International Trade Law','Competition Law','Arbitration','Securities Regulation','Contract Drafting','Mergers & Acquisitions','Cross-border Transactions','Due Diligence','Legal Research','MS Word'],expLabel:'Law Firm & Corporate Legal Experience',projLabel:'LLM Thesis & Research Papers',jobs:['Senior Corporate Counsel','M&A Specialist','Tax Lawyer','Arbitration Specialist','International Trade Lawyer','Compliance Director','General Counsel','Legal Consultant']},
+      {id:'llm_ipr',icon:'💡',name:'LLM — IPR',desc:'Patents, Copyright, Trademarks',skills:['Patent Law','Copyright Law','Trademark Law','Trade Secrets','Technology Licensing','International IP','IP Litigation','Patent Drafting','IP Strategy','WIPO Procedures','Legal Research','MS Word'],expLabel:'IP Law Firm & Corporate Internships',projLabel:'IP Research & Thesis',jobs:['IP Lawyer','Patent Attorney','Copyright Counsel','Trademark Specialist','IP Consultant','Technology Licensing Manager','IP Litigator','General Counsel (IP)']}
+    ]
+  },
+  'Medical / Healthcare': {
+    icon: '🩺',
+    branches: [
+      {id:'mbbs',icon:'🩺',name:'MBBS',desc:'Clinical Medicine, Surgery, Diagnosis',skills:['Clinical Diagnosis','Patient Management','Medical Ethics','Emergency Care','Pharmacology','Anatomy','Physiology','Pathology','Electronic Health Records','ECG Interpretation','Surgical Assistance','Medical Research'],expLabel:'Clinical Rotations & Internships',projLabel:'Research Papers & Case Studies',jobs:['General Physician','Resident Doctor','Medical Officer','Clinical Researcher','Public Health Officer','Hospital Administrator','Surgeon','Pediatrician']},
+      {id:'bds',icon:'🦷',name:'BDS (Dentistry)',desc:'Orthodontics, Oral Surgery, Prosthodontics',skills:['Oral Diagnosis','Orthodontics','Periodontics','Oral Surgery','Prosthodontics','Conservative Dentistry','Oral Radiology','Patient Management','Dental Materials','Ethics','Emergency Dental Care','Research Methods'],expLabel:'Clinical Training & Dental Internships',projLabel:'Clinical Case Studies & Research',jobs:['Dentist','Oral Surgeon','Orthodontist','Dental Medical Officer','Prosthodontist','Dental Researcher','Public Health Dentist','Academic Faculty']},
+      {id:'bpharm',icon:'💊',name:'BPharm / MPharm',desc:'Drug Formulation, Clinical Pharmacy, R&D',skills:['Pharmaceutical Chemistry','Pharmacology','Pharmacokinetics','Drug Formulation','Clinical Pharmacy','Regulatory Affairs','Quality Assurance','GMP','HPLC','Analytical Methods','Research Methods','MS Excel'],expLabel:'Pharmaceutical Internships & Research',projLabel:'Research & Formulation Projects',jobs:['Pharmacist','Drug Regulatory Affairs','QA/QC Analyst','Clinical Research Associate','Medical Representative','Formulation Scientist','Hospital Pharmacist','Pharmaceutical Research Scientist']},
+      {id:'nursing',icon:'💉',name:'BSc Nursing / GNM',desc:'Clinical Nursing, ICU, Community Health',skills:['Patient Care','Medical-Surgical Nursing','ICU Care','Pharmacology','Obstetric Nursing','Paediatric Nursing','Community Health','Emergency Care','Electronic Health Records','Anatomy & Physiology','Medical Ethics','Documentation'],expLabel:'Clinical Placements & Hospital Training',projLabel:'Clinical Case Studies & Research',jobs:['Registered Nurse','ICU Nurse','Community Health Nurse','Nurse Educator','Clinical Nurse Specialist','Public Health Officer','Hospital Administrator','Research Nurse']},
+      {id:'bpt',icon:'🏃',name:'BPT (Physiotherapy)',desc:'Orthopaedics, Neuro Rehab, Sports Physio',skills:['Orthopaedic Physiotherapy','Neurological Rehab','Sports Physiotherapy','Exercise Physiology','Electrotherapy','Manual Therapy','Paediatric Rehab','Patient Assessment','Documentation','Anatomy','Research Methods','MS Excel'],expLabel:'Clinical Placements & Hospital Internships',projLabel:'Clinical Research & Case Studies',jobs:['Physiotherapist','Sports Physiotherapist','Neuro Rehabilitation Specialist','Paediatric Physiotherapist','Consultant Physiotherapist','Community Health Physiotherapist','Lecturer','Clinical Researcher']},
+      {id:'mph',icon:'🌐',name:'MPH (Public Health)',desc:'Epidemiology, Biostatistics, Health Policy',skills:['Epidemiology','Biostatistics','Health Policy','Environmental Health','Community Medicine','Health Communication','Global Health','SPSS','R','Survey Design','Programme Evaluation','Report Writing'],expLabel:'Public Health Internships & Research',projLabel:'Public Health Research & Policy Projects',jobs:['Public Health Officer','Epidemiologist','Health Policy Analyst','NGO Health Programme Officer','Biostatistician','Global Health Researcher','Community Health Manager','WHO/UN Health Officer']}
+    ]
+  }
+};
+ 
+// ── JOB SKILLS DB (unchanged from original) ───────────────────────────────────
 const JOB_SKILLS_DB = {
   'design engineer':        {must:['AutoCAD','SolidWorks','GD&T','FEA','CATIA'],nice:['ANSYS','Pro-E','MATLAB','Lean Manufacturing']},
   'manufacturing engineer': {must:['CNC Programming','Lean Manufacturing','Six Sigma','AutoCAD'],nice:['SolidWorks','CATIA','Quality Control','ERP']},
@@ -578,12 +779,13 @@ const JOB_SKILLS_DB = {
   'hr manager':             {must:['Recruitment','Employee Relations','HR Policies','MS Excel','Communication'],nice:['HRMS Tools','Training & Development','Labor Law','Performance Management']},
   'operations manager':     {must:['Process Improvement','MS Excel','Project Management','Supply Chain'],nice:['Six Sigma','SAP','ERP','Lean','Leadership']},
 };
-
+ 
+// ── State ──────────────────────────────────────────────────────────────────────
 const STEPS = ['Personal','Education','Experience','Projects','Skills','Certifications','Hobbies'];
-let currentStep=0, selectedStream=null, collegeLogoUrl='', currentRating=0;
+let currentStep=0, selectedDegree=null, selectedStream=null, collegeLogoUrl='', currentRating=0;
 const skills=[], langs=[];
 let eduCount=0, expCount=0, projCount=0, certCount=0;
-
+ 
 // ── Particles ──────────────────────────────────────────────────────────────────
 (function initParticles(){
   const c=document.getElementById('particles');
@@ -593,37 +795,90 @@ let eduCount=0, expCount=0, projCount=0, certCount=0;
     c.appendChild(p);
   }
 })();
-
+ 
 function scrollTo2(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}
-
-// ── Stream rendering ───────────────────────────────────────────────────────────
-function renderStreams(){
-  document.getElementById('stream-grid').innerHTML=STREAMS.map(function(s){
-    return '<div class="stream-card" id="sc-'+s.id+'" onclick="selectStream(\''+s.id+'\')">'+
-      '<div class="stream-check">✓</div>'+
-      '<div class="stream-icon">'+s.icon+'</div>'+
-      '<div class="stream-name">'+s.name+'</div>'+
-      '<div class="stream-desc">'+s.desc+'</div>'+
-    '</div>';
+ 
+// ── Two-level stream picker ────────────────────────────────────────────────────
+function renderDegreeButtons(){
+  const row = document.getElementById('degree-row');
+  row.innerHTML = Object.keys(DEGREE_DATA).map(function(deg){
+    return '<button class="degree-btn" id="deg-'+sanitizeId(deg)+'" onclick="selectDegree(\''+escAttr(deg)+'\')">'
+      +'<span class="deg-icon">'+DEGREE_DATA[deg].icon+'</span>'+deg+'</button>';
   }).join('');
 }
-renderStreams();
-
+ 
+function sanitizeId(s){return s.replace(/[^a-zA-Z0-9]/g,'_');}
+function escAttr(s){return s.replace(/'/g,"\\'");}
+ 
+function selectDegree(deg){
+  selectedDegree = deg;
+  selectedStream = null;
+ 
+  // Update degree button styles
+  document.querySelectorAll('.degree-btn').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('deg-'+sanitizeId(deg)).classList.add('active');
+ 
+  // Hide start button and breadcrumb until branch chosen
+  document.getElementById('stream-start-btn').classList.add('hidden');
+  document.getElementById('selection-breadcrumb').classList.remove('visible');
+ 
+  // Render branch grid
+  const branches = DEGREE_DATA[deg].branches;
+  const label = document.getElementById('branch-step-label');
+  label.textContent = 'Choose your specialisation under ' + deg;
+ 
+  const grid = document.getElementById('stream-grid');
+  grid.innerHTML = branches.map(function(s){
+    return '<div class="stream-card" id="sc-'+s.id+'" onclick="selectStream(\''+s.id+'\')">'
+      +'<div class="stream-check">✓</div>'
+      +'<div class="stream-icon">'+s.icon+'</div>'
+      +'<div class="stream-name">'+s.name+'</div>'
+      +'<div class="stream-desc">'+s.desc+'</div>'
+      +'</div>';
+  }).join('');
+ 
+  const panel = document.getElementById('branch-panel');
+  panel.classList.add('visible');
+  // Show job target section hidden until branch selected
+  document.getElementById('job-target-section').style.display='none';
+ 
+  // Smooth scroll to branch grid
+  setTimeout(function(){
+    panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+  },100);
+}
+ 
 function selectStream(id){
-  selectedStream=STREAMS.find(function(s){return s.id===id;});
+  if(!selectedDegree) return;
+  const branches = DEGREE_DATA[selectedDegree].branches;
+  selectedStream = branches.find(function(s){return s.id===id;});
+  if(!selectedStream) return;
+ 
+  // Highlight selected card
   document.querySelectorAll('.stream-card').forEach(function(c){c.classList.remove('selected');});
   document.getElementById('sc-'+id).classList.add('selected');
+ 
+  // Show breadcrumb
+  document.getElementById('bc-degree').textContent = selectedDegree;
+  document.getElementById('bc-branch').textContent = selectedStream.icon+' '+selectedStream.name;
+  document.getElementById('selection-breadcrumb').classList.add('visible');
+ 
+  // Show start button
   document.getElementById('stream-start-btn').classList.remove('hidden');
+ 
+  // Show job target section
   document.getElementById('job-target-section').style.display='block';
-  renderJobChips('job-role-chips', selectedStream.jobs, function(role){selectJobRole(role,'job-result','must-have-chips','nice-have-chips','job-result-title-name');});
+  renderJobChips('job-role-chips', selectedStream.jobs, function(role){
+    selectJobRole(role,'job-result','must-have-chips','nice-have-chips','job-result-title-name');
+  });
 }
-
+ 
 function renderJobChips(containerId, jobs, handler){
   document.getElementById(containerId).innerHTML=jobs.map(function(j){
     return '<span class="job-role-chip" onclick="('+handler.toString()+')(\''+j+'\')">'+j+'</span>';
   }).join('');
 }
-
+ 
 function selectJobRole(role, resultId, mustId, niceId, titleId){
   const key=role.toLowerCase();
   const data=JOB_SKILLS_DB[key]||findClosestJob(key);
@@ -636,7 +891,7 @@ function selectJobRole(role, resultId, mustId, niceId, titleId){
     if(document.getElementById(niceId)) document.getElementById(niceId).innerHTML=data.nice.map(function(s){return'<span class="skill-nice" onclick="addFromSuggestion(\''+s+'\')">+'+s+'</span>';}).join('');
   }
 }
-
+ 
 function searchJobSkills(){
   const val=document.getElementById('job-search-input').value.trim();if(!val)return;
   const key=val.toLowerCase();const data=JOB_SKILLS_DB[key]||findClosestJob(key);
@@ -652,7 +907,7 @@ function searchJobSkills(){
     document.getElementById('nice-have-chips').innerHTML='';
   }
 }
-
+ 
 function inlineJobSearch(){
   const val=document.getElementById('inline-job-input').value.trim();if(!val)return;
   const key=val.toLowerCase();const data=JOB_SKILLS_DB[key]||findClosestJob(key);
@@ -665,23 +920,23 @@ function inlineJobSearch(){
     document.getElementById('inline-nice').innerHTML='';
   }
 }
-
+ 
 function findClosestJob(key){
   const keys=Object.keys(JOB_SKILLS_DB);
   const match=keys.find(function(k){return k.includes(key)||key.includes(k.split(' ')[0]);});
   return match?JOB_SKILLS_DB[match]:null;
 }
-
+ 
 function renderInlineJobChips(){
   if(!selectedStream)return;
   document.getElementById('inline-job-chips').innerHTML=selectedStream.jobs.map(function(j){
     return '<span class="job-role-chip" onclick="quickInlineJob(\''+j+'\')">'+j+'</span>';
   }).join('');
 }
-
+ 
 function quickInlineJob(role){document.getElementById('inline-job-input').value=role;inlineJobSearch();}
 function addFromSuggestion(s){if(!skills.includes(s)){skills.push(s);renderTags('skills-display',skills);}}
-
+ 
 // ── Builder ────────────────────────────────────────────────────────────────────
 function startBuilder(){
   if(!selectedStream){alert('Please select your stream first!');return;}
@@ -694,17 +949,18 @@ function startBuilder(){
   document.getElementById('role').placeholder=selectedStream.icon+' '+selectedStream.name+' Student | '+(selectedStream.skills[0]||'Professional');
   document.getElementById('exp-step-title').textContent=selectedStream.expLabel;
   document.getElementById('proj-step-title').textContent=selectedStream.projLabel;
-  document.getElementById('stream-badge-display').innerHTML='<div class="stream-badge-inline">'+selectedStream.icon+' '+selectedStream.name+' Stream Selected</div>';
+  document.getElementById('stream-badge-display').innerHTML=
+    '<div class="stream-badge-inline">'+selectedDegree+' &rsaquo; '+selectedStream.icon+' '+selectedStream.name+'</div>';
   renderInlineJobChips();buildProgressSteps();goStep(0);
   addEdu();addExp();addProj();addCert();
 }
-
+ 
 function buildProgressSteps(){
   document.getElementById('progress-steps').innerHTML=STEPS.map(function(s,i){
     return '<div class="step" id="pstep-'+i+'" onclick="goStep('+i+')"><div class="step-dot">'+(i+1)+'</div><div class="step-label">'+s+'</div></div>';
   }).join('');
 }
-
+ 
 function goStep(n){
   document.querySelectorAll('.section-card').forEach(function(c){c.classList.remove('visible');});
   document.getElementById('step-'+n).classList.add('visible');currentStep=n;
@@ -715,7 +971,7 @@ function goStep(n){
   document.getElementById('progress-fill').style.width=((n/(STEPS.length-1))*100)+'%';
   window.scrollTo({top:document.getElementById('progress-wrap').offsetTop-10,behavior:'smooth'});
 }
-
+ 
 function fetchCollegeLogo(input){
   const name=input.value.trim();if(name.length<5){collegeLogoUrl='';return;}
   const clean=name.toLowerCase().replace(/\s+/g,'').replace(/[^a-z0-9]/g,'');
@@ -724,37 +980,40 @@ function fetchCollegeLogo(input){
   function next(){if(t>=tries.length){collegeLogoUrl='';return;}const img=new Image();img.onload=function(){collegeLogoUrl=tries[t];};img.onerror=function(){t++;next();};img.src=tries[t];}
   next();
 }
-
+ 
 function addEdu(){
   const id='edu-'+eduCount++;const d=document.createElement('div');d.className='entry-block';d.id=id;
+  const degLabel = selectedDegree ? selectedDegree : 'Degree';
   d.innerHTML='<button class="remove-btn" onclick="removeEntry(\''+id+'\')">×</button>'+
-    '<div class="field-row single"><div class="field"><label>Degree / Program</label><input type="text" placeholder="B.Tech in '+selectedStream.name+' Engineering"/></div></div>'+
+    '<div class="field-row single"><div class="field"><label>Degree / Program</label><input type="text" placeholder="'+degLabel+' in '+selectedStream.name+'"/></div></div>'+
     '<div class="field-row"><div class="field"><label>Institution Name</label><input type="text" placeholder="Your University / College" oninput="fetchCollegeLogo(this)"/></div><div class="field"><label>Location</label><input type="text" placeholder="Delhi, India"/></div></div>'+
     '<div class="field-row"><div class="field"><label>Start Year</label><input type="text" placeholder="2021"/></div><div class="field"><label>End Year / Expected</label><input type="text" placeholder="2025"/></div></div>'+
     '<div class="field-row single"><div class="field"><label>CGPA / Percentage</label><input type="text" placeholder="8.7 CGPA / 87%"/></div></div>';
   document.getElementById('edu-entries').appendChild(d);
 }
-
+ 
 function addExp(){
   const id='exp-'+expCount++;const d=document.createElement('div');d.className='entry-block';d.id=id;
-  const ph=selectedStream.id==='mech'?'Design/Manufacturing Intern':selectedStream.id==='civil'?'Site Engineer Intern':selectedStream.id==='medical'?'Clinical Intern / House Surgeon':selectedStream.id==='law'?'Legal Intern':selectedStream.id==='cs'||selectedStream.id==='it'?'Software Developer Intern':'Intern';
+  const sid = selectedStream ? selectedStream.id : '';
+  const ph=sid==='mech'?'Design/Manufacturing Intern':sid==='civil'?'Site Engineer Intern':sid==='mbbs'?'Clinical Intern / House Surgeon':sid.startsWith('llb')||sid.startsWith('llm')?'Legal Intern':sid==='cs_btech'||sid==='it_btech'||sid==='cs_bsc'||sid==='cs_msc'||sid==='cs_mtech'?'Software Developer Intern':'Intern';
   d.innerHTML='<button class="remove-btn" onclick="removeEntry(\''+id+'\')">×</button>'+
     '<div class="field-row"><div class="field"><label>Role / Designation</label><input type="text" placeholder="'+ph+'"/></div><div class="field"><label>Organisation / Company</label><input type="text" placeholder="Organisation Name"/></div></div>'+
     '<div class="field-row triple"><div class="field"><label>Location</label><input type="text" placeholder="Delhi / Remote"/></div><div class="field"><label>Start</label><input type="text" placeholder="Jun 2023"/></div><div class="field"><label>End</label><input type="text" placeholder="Aug 2023"/></div></div>'+
     '<div class="field-row single"><div class="field"><label>Key Responsibilities & Achievements</label><textarea placeholder="• Describe what you did and the impact you made..."></textarea></div></div>';
   document.getElementById('exp-entries').appendChild(d);
 }
-
+ 
 function addProj(){
   const id='proj-'+projCount++;const d=document.createElement('div');d.className='entry-block';d.id=id;
-  const ph=selectedStream.id==='mech'?'e.g. Design of Heat Exchanger, Automated Conveyor':selectedStream.id==='civil'?'e.g. Structural Analysis of Bridge':selectedStream.id==='medical'?'e.g. Clinical Case Study, Research Paper':selectedStream.id==='law'?'e.g. Moot Court, Legal Research Paper':'e.g. Your Project Title';
+  const sid = selectedStream ? selectedStream.id : '';
+  const ph=sid==='mech'?'e.g. Design of Heat Exchanger, Automated Conveyor':sid==='civil'?'e.g. Structural Analysis of Bridge':sid==='mbbs'?'e.g. Clinical Case Study, Research Paper':sid.startsWith('llb')||sid.startsWith('llm')?'e.g. Moot Court, Legal Research Paper':'e.g. Your Project Title';
   d.innerHTML='<button class="remove-btn" onclick="removeEntry(\''+id+'\')">×</button>'+
-    '<div class="field-row"><div class="field"><label>Project Title</label><input type="text" placeholder="'+ph+'"/></div><div class="field"><label>Tools / Tech Used</label><input type="text" placeholder="'+selectedStream.skills.slice(0,3).join(', ')+'"/></div></div>'+
+    '<div class="field-row"><div class="field"><label>Project Title</label><input type="text" placeholder="'+ph+'"/></div><div class="field"><label>Tools / Tech Used</label><input type="text" placeholder="'+( selectedStream?selectedStream.skills.slice(0,3).join(', '):'Your tools')+'"/></div></div>'+
     '<div class="field-row"><div class="field"><label>GitHub / Report Link</label><input type="url" placeholder="https://github.com/you/project"/></div><div class="field"><label>Demo / Deployed Link</label><input type="url" placeholder="https://yourproject.vercel.app"/></div></div>'+
     '<div class="field-row single"><div class="field"><label>Description & Outcome</label><textarea placeholder="Describe the problem you solved, your approach, and the result..."></textarea></div></div>';
   document.getElementById('proj-entries').appendChild(d);
 }
-
+ 
 function addCert(){
   const id='cert-'+certCount++;const d=document.createElement('div');d.className='entry-block';d.id=id;
   d.innerHTML='<button class="remove-btn" onclick="removeEntry(\''+id+'\')">×</button>'+
@@ -762,16 +1021,16 @@ function addCert(){
     '<div class="field-row single"><div class="field"><label>Date / Year</label><input type="text" placeholder="March 2024"/></div></div>';
   document.getElementById('cert-entries').appendChild(d);
 }
-
+ 
 function removeEntry(id){const el=document.getElementById(id);if(el)el.remove();}
-
+ 
 document.addEventListener('keydown',function(e){
   if(e.key==='Enter'&&document.activeElement.id==='skill-input')addSkill();
   if(e.key==='Enter'&&document.activeElement.id==='lang-input')addLang();
   if(e.key==='Enter'&&document.activeElement.id==='inline-job-input')inlineJobSearch();
   if(e.key==='Enter'&&document.activeElement.id==='job-search-input')searchJobSkills();
 });
-
+ 
 function addSkill(){const inp=document.getElementById('skill-input');const val=inp.value.trim();if(!val||skills.includes(val)){inp.value='';return;}skills.push(val);renderTags('skills-display',skills);inp.value='';}
 function addLang(){const inp=document.getElementById('lang-input');const val=inp.value.trim();if(!val||langs.includes(val)){inp.value='';return;}langs.push(val);renderTags('langs-display',langs);inp.value='';}
 function renderTags(cid,arr){document.getElementById(cid).innerHTML=arr.map(function(s,i){return'<span class="skill-tag">'+s+'<button onclick="removeTag('+i+',\''+cid+'\')">×</button></span>';}).join('');}
@@ -779,7 +1038,7 @@ function removeTag(i,cid){const ref=cid==='skills-display'?skills:langs;ref.spli
 function v(id){const el=document.getElementById(id);return el?el.value.trim():'';}
 function esc(s){if(!s)return'';return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function collectEntries(cid,mapper){const c=document.getElementById(cid);if(!c)return[];return Array.from(c.querySelectorAll('.entry-block')).map(mapper);}
-
+ 
 // ── ATS score ──────────────────────────────────────────────────────────────────
 function calcAtsScore(){
   const fname=v('fname'),lname=v('lname'),email=v('email'),phone=v('phone'),summary=v('summary'),location=v('location'),linkedin=v('linkedin');
@@ -804,7 +1063,7 @@ function calcAtsScore(){
   const total=Math.round(contactScore*weights.contact+expScore*weights.exp+skillScore*weights.skills+certScore*weights.cert+summaryScore*weights.summary);
   return{total,contact:contactScore,exp:expScore,skills:skillScore,cert:certScore,summary:summaryScore,tips};
 }
-
+ 
 function renderAtsPanel(score){
   const s=score.total;const col=s>=80?'var(--green)':s>=55?'var(--gold)':'var(--red)';const label=s>=80?'Excellent':s>=55?'Good':'Needs Work';
   const bars=[{label:'Contact Info',val:score.contact,col:'var(--gold)'},{label:'Experience',val:score.exp,col:'var(--green)'},{label:'Skills',val:score.skills,col:score.skills>=75?'var(--green)':'var(--orange)'},{label:'Certifications',val:score.cert,col:'var(--gold)'},{label:'Summary',val:score.summary,col:score.summary>=80?'var(--green)':'var(--orange)'}];
@@ -812,7 +1071,7 @@ function renderAtsPanel(score){
   const tipsHTML=score.tips.length?score.tips.map(function(t){return'<div class="ats-tip"><span class="ats-tip-icon">'+t.icon+'</span>'+t.text+'</div>';}).join(''):'<div class="ats-tip"><span class="ats-tip-icon">✅</span> Your resume looks great! You\'re ready to apply.</div>';
   document.getElementById('ats-panel').innerHTML='<div class="ats-panel-top"><h3>📊 ATS Score Analysis</h3><div class="ats-score-badge"><div><div class="ats-circle" style="color:'+col+';border-color:'+col+'">'+s+'%</div><div class="ats-score-label" style="color:'+col+'">'+label+'</div></div></div></div><div class="ats-bars">'+barsHTML+'</div><div class="ats-tips"><div class="ats-tips-title">Improvement Tips</div>'+tipsHTML+'</div>';
 }
-
+ 
 // ── Resume generation ──────────────────────────────────────────────────────────
 function generateResume(){
   const fname=v('fname'),lname=v('lname');
@@ -856,74 +1115,56 @@ function generateResume(){
   document.getElementById('preview-section').classList.add('visible');
   window.scrollTo({top:0,behavior:'smooth'});
 }
-
+ 
 function goBackToForm(){
   document.getElementById('preview-section').classList.remove('visible');
   document.getElementById('progress-wrap').classList.remove('hidden');
   document.getElementById('form-area').classList.remove('hidden');
   goStep(currentStep);
 }
-
+ 
 function downloadPDF(){
   const el=document.getElementById('resume-doc');
   const fname=v('fname')||'Resume',lname=v('lname')||'';
   html2pdf().set({margin:[8,10,8,10],filename:fname+'_'+lname+'_Resume.pdf',image:{type:'jpeg',quality:0.99},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(el).save();
 }
-
+ 
 function setStar(n){currentRating=n;document.querySelectorAll('.star').forEach(function(s,i){s.classList.toggle('lit',i<n);});}
-
-// ── Contact / Feedback — now sends to backend ──────────────────────────────────
+ 
+// ── Contact / Feedback ─────────────────────────────────────────────────────────
 async function submitContact(){
   const name=document.getElementById('ct-name').value.trim();
   const msg=document.getElementById('ct-msg').value.trim();
   if(!name||!msg){alert('Please fill in your name and message.');return;}
-
   const btn=document.getElementById('submit-btn');
   const errEl=document.getElementById('ct-error');
   const successEl=document.getElementById('ct-success');
-
-  btn.disabled=true;
-  btn.textContent='Sending…';
-  errEl.style.display='none';
-  successEl.style.display='none';
-
+  btn.disabled=true;btn.textContent='Sending…';
+  errEl.style.display='none';successEl.style.display='none';
   const payload={
-    name,
-    email:document.getElementById('ct-email').value.trim(),
+    name,email:document.getElementById('ct-email').value.trim(),
     stream:document.getElementById('ct-stream').value,
     hired:document.getElementById('ct-hired').value,
-    rating:currentRating,
-    message:msg
+    rating:currentRating,message:msg
   };
-
-  // Always save locally as backup
+  try{let db=JSON.parse(localStorage.getItem('resumecraft_v2_feedback')||'[]');db.push({...payload,timestamp:new Date().toISOString()});localStorage.setItem('resumecraft_v2_feedback',JSON.stringify(db));}catch(e){}
   try{
-    let db=JSON.parse(localStorage.getItem('resumecraft_v2_feedback')||'[]');
-    db.push({...payload,timestamp:new Date().toISOString()});
-    localStorage.setItem('resumecraft_v2_feedback',JSON.stringify(db));
-  }catch(e){}
-
-  // Send to backend
-  try{
-    const res=await fetch(BACKEND_URL+'/api/feedback',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(payload)
-    });
-    if(!res.ok) throw new Error('Server error '+res.status);
+    const res=await fetch(BACKEND_URL+'/api/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    if(!res.ok)throw new Error('Server error '+res.status);
     successEl.style.display='block';
   }catch(err){
     console.error('Backend error:',err);
-    // Show success anyway since we saved locally — backend may just not be set up yet
     successEl.style.display='block';
     successEl.querySelector('small').textContent='Saved locally. Backend not connected yet — see README to deploy.';
   }
-
   btn.disabled=false;btn.textContent='✦ Send Message';
   ['ct-name','ct-email','ct-msg'].forEach(function(id){document.getElementById(id).value='';});
   document.getElementById('ct-stream').value='';document.getElementById('ct-hired').value='';setStar(0);
   setTimeout(function(){successEl.style.display='none';},6000);
 }
+ 
+// ── Init ───────────────────────────────────────────────────────────────────────
+renderDegreeButtons();
 </script>
 </body>
 </html>
